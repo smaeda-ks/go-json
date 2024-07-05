@@ -77,7 +77,12 @@ func ptrToUint64(p uintptr, bitSize uint8) uint64 {
 	case 32:
 		return (uint64)(**(**uint32)(unsafe.Pointer(&p)))
 	case 64:
-		return **(**uint64)(unsafe.Pointer(&p))
+		temp := unsafe.Pointer(&p)
+		if temp == nil {
+			return 0
+		} else {
+			return **(**uint64)(temp)
+		}
 	}
 	return 0
 }
